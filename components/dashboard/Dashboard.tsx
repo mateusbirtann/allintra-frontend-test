@@ -24,34 +24,13 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-
-const data: CryptoCurrency[] = [
-  {
-    rank: 1,
-    name: 'Bitcoin (BTC)',
-    amount: 316,
-  },
-  {
-    rank: 2,
-    name: 'Ethereum (ETH)',
-    amount: 242,
-  },
-  {
-    rank: 3,
-    name: 'Solana (SOL)',
-    amount: 837,
-  },
-  {
-    rank: 4,
-    name: 'Dogecoin (DOGE)',
-    amount: 874,
-  },
-];
+import { useBinanceMultipleStream } from '@/hooks/use-binance-multiple-stream';
+import { getCryptoCurrencyValue } from '@/services/getCryptoCurrencyValue';
 
 export type CryptoCurrency = {
   rank: number;
   name: string;
-  amount: number;
+  amount: string;
 };
 
 export const columns: ColumnDef<CryptoCurrency>[] = [
@@ -101,6 +80,36 @@ export const columns: ColumnDef<CryptoCurrency>[] = [
 ];
 
 export default function CardsDataTable() {
+  const { cryptoCurrencyDataStream }: any = useBinanceMultipleStream([
+    'btcusdt',
+    'ethusdt',
+    'solusdt',
+    'dogeusdt',
+  ]);
+
+  const data: CryptoCurrency[] = [
+    {
+      rank: 1,
+      name: 'Bitcoin (BTC)',
+      amount: getCryptoCurrencyValue(cryptoCurrencyDataStream, 'btcusdt'),
+    },
+    {
+      rank: 2,
+      name: 'Ethereum (ETH)',
+      amount: getCryptoCurrencyValue(cryptoCurrencyDataStream, 'ethusdt'),
+    },
+    {
+      rank: 3,
+      name: 'Solana (SOL)',
+      amount: getCryptoCurrencyValue(cryptoCurrencyDataStream, 'solusdt'),
+    },
+    {
+      rank: 4,
+      name: 'Dogecoin (DOGE)',
+      amount: getCryptoCurrencyValue(cryptoCurrencyDataStream, 'dogeusdt'),
+    },
+  ];
+
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
