@@ -2,20 +2,14 @@ import { getSocketByCurrency } from '@/websocket/binance-websocket';
 import { useEffect, useState } from 'react';
 
 export const useBinanceSingleStream = (currency: string) => {
-  const [currencyData, setData] = useState<any[]>([]);
-  const socket: WebSocket = getSocketByCurrency(currency);
+  const [cryptoCurrencyDataStream, setCryptoCurrencyDataStream] = useState<any[]>([]);
 
   useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      try {
-        const currencyData = JSON.parse(event.data);
-        setData(currencyData);
-      } catch (error) {
-        console.error('Failed to parse message data:', error);
-      }
+    const socket: WebSocket = getSocketByCurrency(currency);
+    socket.onmessage = (event: MessageEvent) => {
+      const dataStream = JSON.parse(event.data);
+      setCryptoCurrencyDataStream(dataStream);
     };
-
-    socket.onmessage = handleMessage;
 
     return () => {
       socket.onmessage = null;
@@ -23,5 +17,5 @@ export const useBinanceSingleStream = (currency: string) => {
     };
   }, []);
 
-  return { currencyData };
+  return { cryptoCurrencyDataStream };
 };
