@@ -1,4 +1,4 @@
-export interface CryptoCurrencyData {
+export type CryptoCurrencyDataStreamProps = {
   stream: string;
   data: {
     e: string;
@@ -25,4 +25,19 @@ export interface CryptoCurrencyData {
     L: number;
     n: number;
   };
-}
+};
+
+export type CryptoCurrencyColumnData = {
+  rank: number;
+  name: JSX.Element;
+  amount: string | number | JSX.Element;
+  percentageChange: number;
+};
+
+export type CryptoNameMapType = {
+  [key: string]: {
+    name: string;
+    symbol: string;
+    icon: JSX.Element;
+  };
+};
