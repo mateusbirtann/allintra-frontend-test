@@ -1,8 +1,10 @@
+import { CryptoCurrencyDataStreamProps } from '@/interfaces/types';
 import { getSocketByCurrencyArray } from '@/websocket/binance-websocket';
 import { useEffect, useState } from 'react';
 
 export const useBinanceMultipleStream = (currencyArray: string[]) => {
-  const [cryptoCurrencyDataStream, setCryptoCurrencyDataStream] = useState<any[]>([]);
+  const [cryptoCurrencyDataStream, setCryptoCurrencyDataStream] =
+    useState<CryptoCurrencyDataStreamProps>();
 
   useEffect(() => {
     const socket: WebSocket = getSocketByCurrencyArray(currencyArray);
