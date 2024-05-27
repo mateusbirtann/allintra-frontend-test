@@ -1,24 +1,23 @@
-import { screen } from '@testing-library/react'
-import '@testing-library/jest-dom'
-import { renderWithProviders } from '@/lib/utils-for-tests'
-import { createCryptoCurrencyTableData } from '@/services/create-crypto-currency-table-data'
-import { Table } from '@/components/ui/table'
-import { columns } from '@/components/dashboard/columns'
+import { screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import { renderWithProviders } from '@/lib/utils-for-tests';
+import { createCryptoCurrencyTableData } from '@/services/create-crypto-currency-table-data';
+import { Table } from '@/components/ui/table';
+import { columns } from '@/components/dashboard/columns';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
-import { TableHeaderDashboard } from '@/components/dashboard/table-header-dashboard'
-import { TableBodyDashboard } from '@/components/dashboard/table-body-dashboard'
-import { CardContent } from '@/components/ui/card'
+import { TableHeaderDashboard } from '@/components/dashboard/table-header-dashboard';
+import { TableBodyDashboard } from '@/components/dashboard/table-body-dashboard';
+import { CardContent } from '@/components/ui/card';
 
 describe('CryptoCurrencyTableData component', () => {
   it('renders table column correctly', () => {
-
     const TestCryptoCurrencyTableData = () => {
       const data = createCryptoCurrencyTableData(
         {
           currentValues: { ethusdt: '3906.21000000' },
           percentageChange: { ethusdt: 0.00007164350193442575 },
         },
-        ['ethusdt']
+        ['ethusdt'],
       );
 
       const table = useReactTable({
@@ -36,7 +35,7 @@ describe('CryptoCurrencyTableData component', () => {
             </Table>
           </CardContent>
         </div>
-      )
+      );
     };
 
     renderWithProviders(<TestCryptoCurrencyTableData />);
@@ -51,4 +50,4 @@ describe('CryptoCurrencyTableData component', () => {
     expect(screen.getByText('0.01%')).toBeInTheDocument();
     expect(screen.getByText('3,906.21')).toBeInTheDocument();
   });
-})
+});

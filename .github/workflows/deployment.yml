@@ -1,9 +1,9 @@
 name: Deployment Workflow
 on:
-    push:
-        branches: [main]
-    pull_request:
-        branches: [main]
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   build:
@@ -12,24 +12,24 @@ jobs:
       matrix:
         node-version: [20]
     steps:
-    - uses: actions/checkout@v4
-    - name: Install pnpm
-      uses: pnpm/action-setup@v3
-      with:
-        version: 9
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'pnpm'
-    - name: Install dependencies
-      run: pnpm install
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
 
-    - name: Check linting
-      run: pnpm run lint
-            
-    - name: Run the tests
-      run: pnpm run test
+      - name: Check linting
+        run: pnpm run lint
 
-    - name: Build
-      run: pnpm run build
+      - name: Run the tests
+        run: pnpm run test
+
+      - name: Build
+        run: pnpm run build
