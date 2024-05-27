@@ -53,11 +53,9 @@ export const columns: ColumnDef<CryptoCurrencyColumnData>[] = [
         return <SkeletonLoader />;
       }
 
-      const absolutPercentageChange = Math.abs(percentageChange);
-
-      const formatted = (absolutPercentageChange / 100).toLocaleString('en-US', {
+      const formatted = percentageChange.toLocaleString('en-US', {
         style: 'percent',
-        minimumFractionDigits: 3,
+        minimumFractionDigits: 2,
       });
 
       const isPositive = percentageChange > 0;
