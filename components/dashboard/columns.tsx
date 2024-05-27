@@ -62,7 +62,7 @@ export const columns: ColumnDef<CryptoCurrencyColumnData>[] = [
 
       return (
         <div
-          className={`flex flex-col items-center justify-end gap-1 text-xs font-medium sm:flex-row sm:text-base ${isPositive ? 'text-green-500' : 'text-red-500'}`}
+          className={`flex items-center justify-end gap-1 text-xs font-medium sm:flex-row sm:text-base ${isPositive ? 'text-green-500' : 'text-red-500'}`}
         >
           {isPositive ? <ArrowBigUp className="h-6 w-6" /> : <ArrowBigDown className="h-6 w-6" />}
           {formatted}
