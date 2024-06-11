@@ -1,24 +1,57 @@
-# Allintra Frontend Test
+# Crypto Market Tracker
 
-Este projeto é um teste de frontend para a empresa Allintra.
-O objetivo é desenvolver um dashboard que se conecte à API da Binance para monitorar e exibir
-em tempo real o último preço e a flutuação percentual dos preços de criptomoedas específicas
-desde que a dashboard foi aberta.
+Essa é uma aplicação web com o objetivo de rastrear a capitalização de criptomoedas, se conectando a API da Binance para monitorar e exibir em tempo real o último preço e a flutuação percentual dos valores de criptomoedas.
 
 ## Funcionalidades do Dashboard
 
-- Utilizar Websockets para conectar-se à API da Binance e obter atualizações em
-  tempo real dos preços das criptomoedas: Bitcoin (BTC), Ethereum (ETH), Solana
-  (SOL) e Dogecoin (DOGE).
-- Exibir o último preço em USDT para cada uma das criptomoedas.
+- Exibir o último preço em USDT para cada uma das criptomoedas. [Bitcoin, Ethereum, Solana e Dogecoin]
 - Calcular e mostrar o percentual de mudança do preço desde a abertura do
   dashboard para cada criptomoeda.
 - Atualizar estes dados em tempo real conforme as novas informações são recebidas
   via Websocket.
 
-### Mobile Version
+## Lógica da Aplicação
+A lógica principal da aplicação é dividida em três partes: configurar a conexão WebSocket, processar os dados recebidos do WebSocket e criar/modelar os dados para a criação da tabela que exibe as informações das criptomoedas.
 
-<img src="public/mobile-version.gif" width="500" height="600">
+#### 1. Conexão WebSocket
+A conexão WebSocket é configurada usando o hook `useBinanceMultipleStream`.
+Este hook recebe um array de pares de criptomoedas como argumento e estabelece uma conexão WebSocket.
+
+```
+const { cryptoCurrencyDataStream }: { cryptoCurrencyDataStream?: CryptoCurrencyDataStreamProps } =
+    useBinanceMultipleStream(cryptoCurrencyPairs);
+```
+
+#### 2. Processamento de Dados
+Os dados recebidos do WebSocket são processados usando a função `useCryptoCurrencyData`. Esta função recebe o fluxo de dados do WebSocket e o array de pares de criptomoedas como argumentos. Ela usa a função `useCryptoCurrencyValue` para calcular o valor atual e a variação percentual para cada par de criptomoedas.
+
+```
+const { currentValues, percentageChange } = useCryptoCurrencyValue(
+    cryptoCurrencyDataStream,
+    cryptoCurrencyPairs,
+);
+```
+
+#### 3. Criação da tabela
+Os dados para a tabela que exibe as informações da criptomoeda são criados usando a função `createCryptoCurrencyTableData`. Esta função recebe os valores atuais e as variações percentuais para os pares de criptomoedas (em `cryptoCurrencyData`) e o array de pares de criptomoedas em (`cryptoCurrencyPairs`) como argumentos. Ela retorna um array de objetos, cada um contendo o rank, nome, valor atual e variação percentual de um par de criptomoedas.
+
+```
+const data = createCryptoCurrencyTableData(cryptoCurrencyData, cryptoCurrencyPairs);
+```
+
+Estes dados são então passados para a função `useReactTable` para criar a tabela.
+
+```
+const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+});
+```
+
+### Preview
+
+<img src="public/mobile-version.PNG" width="508" height="776"/>
 
 ## Como executar o projeto
 
@@ -33,10 +66,10 @@ Além disto é bom ter um editor para trabalhar com o código como [VSCode](http
 ```bash
 
 # Clone este repositório
-$ git clone git@github.com:mateusbirtann/allintra-frontend-test.git
+$ git clone git@github.com:mateusbirtann/crypto-market-tracker.git
 
 # Acesse a pasta do projeto no seu terminal/cmd
-$ cd allintra-frontend-test
+$ cd crypto-marker-tracker
 
 # Instale as dependências
 $ pnpm install
@@ -118,14 +151,6 @@ expect(store.getState().cryptoCurrency).toEqual({
 ```
 
 No arquivo `table.test.tsx`, verificamos se o header e body são renderizados corretamente com os devidos valores passados.
-
-## Conexão WebSocket com a Binance
-
-Este aplicativo usa WebSockets para se conectar a API da Binance e receber atualizações em tempo real sobre os preços das criptomoedas. A conexão é estabelecida usando o hook `useBinanceMultipleStream` de [`hooks/use-binance-multiple-stream.ts`](hooks/use-binance-multiple-stream.ts).
-
-Este hook usa um array de pares de criptomoedas como argumento. A conexão WebSocket é estabelecida usando a função `getSocketByCurrencyArray` de [`websocket/binance-websocket.ts`](websocket/binance-websocket.ts).
-
-Quando uma mensagem é recebida do WebSocket, a aplicação analisa os dados da mensagem, grava o preço inicial e atualiza cada novo preço atual com esses novos dados. Isso permite que o aplicativo exiba o preço mais recente e a alteração percentual de cada criptomoeda desde a abertura do dashboard em tempo real.
 
 ## ⚡ Performance
 

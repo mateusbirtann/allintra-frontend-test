@@ -6,7 +6,7 @@ import StoreProvider from '@/store/store-provider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Allintra Frontend Test',
+  title: 'Crypto Market Tracker',
 };
 
 export default function RootLayout({
