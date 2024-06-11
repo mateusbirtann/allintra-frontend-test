@@ -11,7 +11,7 @@ import { TableBodyDashboard } from './table-body-dashboard';
 import { useCryptoCurrencyData } from '@/hooks/use-crypto-currency-data';
 import { createCryptoCurrencyTableData } from '@/services/create-crypto-currency-table-data';
 
-export default function CardsDataTable() {
+export default function Home() {
   const cryptoCurrencyPairs = ['btcusdt', 'ethusdt', 'solusdt', 'dogeusdt'];
   const cryptoCurrencyData = useCryptoCurrencyData(cryptoCurrencyPairs);
   const data = createCryptoCurrencyTableData(cryptoCurrencyData, cryptoCurrencyPairs);
@@ -35,6 +35,7 @@ export default function CardsDataTable() {
           </Table>
         </div>
       </CardContent>
+      <p className="text-xs text-zinc-500 my-4">Variação % representa a diferença de valor em percentual desde a abertura do dashborad</p>
     </Card>
   );
 }

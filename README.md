@@ -69,7 +69,7 @@ Além disto é bom ter um editor para trabalhar com o código como [VSCode](http
 $ git clone git@github.com:mateusbirtann/crypto-market-tracker.git
 
 # Acesse a pasta do projeto no seu terminal/cmd
-$ cd crypto-marker-tracker
+$ cd crypto-market-tracker
 
 # Instale as dependências
 $ pnpm install
